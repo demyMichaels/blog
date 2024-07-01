@@ -1,1 +1,1 @@
-This is a Vue app Blog
+This is a Vue app Blog.
