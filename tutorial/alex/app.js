@@ -12,7 +12,7 @@ var fs = require('file-system');
 // Include controllers
 fs.readdirSync('controller').forEach(function (file){
   if(file.substr(-3) == '.js'){
-    const route = require('./contollers/' + file)
+    const route = require('./controller/' + file)
     route.controller(app)
   }
 })
