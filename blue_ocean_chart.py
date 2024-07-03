@@ -19,7 +19,7 @@ data = pd.DataFrame({
 })
 
 # Plotting the data
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(12, 8))
 
 ax.plot(data['Category'], data['Before'], label="EFS and Other Traditional Competitors’ “Before” Strategy", linestyle='--', marker='o', color='gray')
 ax.plot(data['Category'], data['After'], label="EFS’s “After” Strategy", linestyle='-', marker='o', color='limegreen')
@@ -30,13 +30,16 @@ ax.set_xlabel('Category')
 ax.set_ylabel('Value')
 
 # Rotate category labels for better readability
-plt.xticks(rotation=45)
+plt.xticks(rotation=45, ha='right')
 
 # Adding grid
 ax.grid(True, linestyle='--', alpha=0.6)
 
 # Adding legend
 ax.legend()
+
+# Adjust layout to prevent clipping of tick-labels
+plt.tight_layout()
 
 # Save the plot as an image file
 plt.savefig('blue_ocean_strategy.png')
