@@ -25,14 +25,12 @@
             {% endfor %}
         </select>
         
-        <label for="response">Select Response:</label>
-        <select name="response" id="response">
+        <p>Select Response:</p>
+        <div class="response-buttons">
             {% for response in responses %}
-                <option value="{{ response }}">{{ response }}</option>
+                <button type="submit" name="response" value="{{ response }}" class="response-button">{{ response }}</button>
             {% endfor %}
-        </select>
-
-        <button type="submit">Submit</button>
+        </div>
     </form>
 </body>
 </html>
