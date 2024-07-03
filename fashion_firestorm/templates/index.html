@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Crisis Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Fashion Crisis Game</h1>
+    <form method="POST">
+        <label for="crisis">Select Crisis:</label>
+        <select name="crisis" id="crisis">
+            {% for crisis in crises %}
+                <option value="{{ crisis }}">{{ crisis }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="leadership_style">Select Leadership Style:</label>
+        <select name="leadership_style" id="leadership_style">
+            {% for style in leadership_styles %}
+                <option value="{{ style }}">{{ style }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="corporate_culture">Select Corporate Culture:</label>
+        <select name="corporate_culture" id="corporate_culture">
+            {% for culture in corporate_cultures %}
+                <option value="{{ culture }}">{{ culture }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="response">Select Response:</label>
+        <select name="response" id="response">
+            {% for response in responses %}
+                <option value="{{ response }}">{{ response }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
