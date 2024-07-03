@@ -5,30 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fashion Crisis Game</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function disableButtons(category, selectedButton) {
+            const buttons = document.querySelectorAll(`.${category}-button`);
+            buttons.forEach(button => {
+                button.disabled = true;
+                if (button !== selectedButton) {
+                    button.classList.add('disabled');
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <h1>Fashion Crisis Game</h1>
     <h2>CNN Breaking News: {{ crisis }}</h2>
     <p>Choose your response strategy:</p>
     <form method="POST">
-        <label for="leadership_style">Select Leadership Style:</label>
-        <select name="leadership_style" id="leadership_style">
+        <p>Select Leadership Style:</p>
+        <div class="leadership-buttons">
             {% for style in leadership_styles %}
-                <option value="{{ style }}">{{ style }}</option>
+                <button type="submit" name="leadership_style" value="{{ style }}" class="leadership-button" onclick="disableButtons('leadership', this)">{{ style }}</button>
             {% endfor %}
-        </select>
+        </div>
         
-        <label for="corporate_culture">Select Corporate Culture:</label>
-        <select name="corporate_culture" id="corporate_culture">
+        <p>Select Corporate Culture:</p>
+        <div class="culture-buttons">
             {% for culture in corporate_cultures %}
-                <option value="{{ culture }}">{{ culture }}</option>
+                <button type="submit" name="corporate_culture" value="{{ culture }}" class="culture-button" onclick="disableButtons('culture', this)">{{ culture }}</button>
             {% endfor %}
-        </select>
+        </div>
         
         <p>Select Response:</p>
         <div class="response-buttons">
             {% for response in responses %}
-                <button type="submit" name="response" value="{{ response }}" class="response-button">{{ response }}</button>
+                <button type="submit" name="response" value="{{ response }}" class="response-button" onclick="disableButtons('response', this)">{{ response }}</button>
             {% endfor %}
         </div>
     </form>
