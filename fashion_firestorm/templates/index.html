@@ -8,28 +8,23 @@
 </head>
 <body>
     <h1>Fashion Crisis Game</h1>
+    <h2>CNN Breaking News: {{ crisis }}</h2>
+    <p>Choose your response strategy:</p>
     <form method="POST">
-        <label for="crisis">Select Crisis:</label>
-        <select name="crisis" id="crisis">
-            {% for crisis in crises %}
-                <option value="{{ crisis }}">{{ crisis }}</option>
-            {% endfor %}
-        </select>
-
         <label for="leadership_style">Select Leadership Style:</label>
         <select name="leadership_style" id="leadership_style">
             {% for style in leadership_styles %}
                 <option value="{{ style }}">{{ style }}</option>
             {% endfor %}
         </select>
-
+        
         <label for="corporate_culture">Select Corporate Culture:</label>
         <select name="corporate_culture" id="corporate_culture">
             {% for culture in corporate_cultures %}
                 <option value="{{ culture }}">{{ culture }}</option>
             {% endfor %}
         </select>
-
+        
         <label for="response">Select Response:</label>
         <select name="response" id="response">
             {% for response in responses %}
