@@ -40,7 +40,7 @@ button {
 }
 
 button:hover {
-    background-color: #a06545;
+    background-color: #a09e45;
 }
 
 button:disabled, .disabled {
