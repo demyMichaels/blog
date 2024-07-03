@@ -10,10 +10,10 @@
             const buttons = document.querySelectorAll(`.${category}-button`);
             buttons.forEach(button => {
                 button.disabled = true;
-                if (button !== selectedButton) {
-                    button.classList.add('disabled');
-                }
+                button.classList.add('disabled');
             });
+            selectedButton.disabled = false;
+            selectedButton.classList.remove('disabled');
         }
     </script>
 </head>
@@ -25,23 +25,25 @@
         <p>Select Leadership Style:</p>
         <div class="leadership-buttons">
             {% for style in leadership_styles %}
-                <button type="submit" name="leadership_style" value="{{ style }}" class="leadership-button" onclick="disableButtons('leadership', this)">{{ style }}</button>
+                <button type="button" onclick="disableButtons('leadership', this)" name="leadership_style" value="{{ style }}" class="leadership-button" >{{ style }}</button>
             {% endfor %}
         </div>
         
         <p>Select Corporate Culture:</p>
         <div class="culture-buttons">
             {% for culture in corporate_cultures %}
-                <button type="submit" name="corporate_culture" value="{{ culture }}" class="culture-button" onclick="disableButtons('culture', this)">{{ culture }}</button>
+                <button type="button" onclick="disableButtons('culture', this)" name="corporate_culture" value="{{ culture }}" class="culture-button" >{{ culture }}</button>
             {% endfor %}
         </div>
-        
+
         <p>Select Response:</p>
         <div class="response-buttons">
             {% for response in responses %}
-                <button type="submit" name="response" value="{{ response }}" class="response-button" onclick="disableButtons('response', this)">{{ response }}</button>
+                <button type="button" onclick="disableButtons('response', this)" name="response" value="{{ response }}" class="response-button" >{{ response }}</button>
             {% endfor %}
         </div>
+
+        <input type="submit" value="Submit">
     </form>
 </body>
 </html>
