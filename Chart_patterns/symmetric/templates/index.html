@@ -9,30 +9,79 @@
 <body>
     <h1>Symmetrical Triangles Chart</h1>
     <div id="uptrend-chart"></div>
+    <div id="uptrend-converge"></div>
     <div id="downtrend-chart"></div>
+    <div id="downtrend-converge"></div>
     <script>
-        fetch('/get_chart_data')
-            .then(response => response.json())
-            .then(data => {
-                var uptrend = {
-                    x: data.uptrend.x,
-                    y: data.uptrend.y,
-                    mode: 'lines',
-                    name: 'Symmetrical Triangle in an Uptrend',
-                    line: { shape: 'linear' }
-                };
+        function checkConvergence(top_line, bottom_line) {
+            return top_line[top_line.length - 1] === bottom_line[bottom_line.length - 1];
+        }
 
-                var downtrend = {
-                    x: data.downtrend.x,
-                    y: data.downtrend.y,
-                    mode: 'lines',
-                    name: 'Symmetrical Triangle in a Downtrend',
-                    line: { shape: 'linear' }
-                };
+        function updateChart() {
+            fetch('/get_chart_data')
+                .then(response => response.json())
+                .then(data => {
+                    var uptrend = {
+                        x: data.uptrend.dates,
+                        y: data.uptrend.prices,
+                        mode: 'lines',
+                        name: 'Symmetrical Triangle in an Uptrend',
+                        line: { shape: 'linear' }
+                    };
 
-                Plotly.newPlot('uptrend-chart', [uptrend], { title: 'Symmetrical Triangle in an Uptrend (Bullish)' });
-                Plotly.newPlot('downtrend-chart', [downtrend], { title: 'Symmetrical Triangle in a Downtrend (Bearish)' });
-            });
+                    var uptrend_top_line = {
+                        x: data.uptrend_converge.dates,
+                        y: data.uptrend_converge.top_line,
+                        mode: 'lines',
+                        name: 'Top Line',
+                        line: { dash: 'dash' }
+                    };
+
+                    var uptrend_bottom_line = {
+                        x: data.uptrend_converge.dates,
+                        y: data.uptrend_converge.bottom_line,
+                        mode: 'lines',
+                        name: 'Bottom Line',
+                        line: { dash: 'dash' }
+                    };
+
+                    var downtrend = {
+                        x: data.downtrend.dates,
+                        y: data.downtrend.prices,
+                        mode: 'lines',
+                        name: 'Symmetrical Triangle in a Downtrend',
+                        line: { shape: 'linear' }
+                    };
+
+                    var downtrend_top_line = {
+                        x: data.downtrend_converge.dates,
+                        y: data.downtrend_converge.top_line,
+                        mode: 'lines',
+                        name: 'Top Line',
+                        line: { dash: 'dash' }
+                    };
+
+                    var downtrend_bottom_line = {
+                        x: data.downtrend_converge.dates,
+                        y: data.downtrend_converge.bottom_line,
+                        mode: 'lines',
+                        name: 'Bottom Line',
+                        line: { dash: 'dash' }
+                    };
+
+                    Plotly.newPlot('uptrend-chart', [uptrend, uptrend_top_line, uptrend_bottom_line], { title: 'Symmetrical Triangle in an Uptrend (Bullish)' });
+                    Plotly.newPlot('downtrend-chart', [downtrend, downtrend_top_line, downtrend_bottom_line], { title: 'Symmetrical Triangle in a Downtrend (Bearish)' });
+
+                    var uptrendConvergeText = checkConvergence(data.uptrend_converge.top_line, data.uptrend_converge.bottom_line) ? 'Converging' : 'Not Converging';
+                    var downtrendConvergeText = checkConvergence(data.downtrend_converge.top_line, data.downtrend_converge.bottom_line) ? 'Converging' : 'Not Converging';
+
+                    document.getElementById('uptrend-converge').innerHTML = `Uptrend: ${uptrendConvergeText}`;
+                    document.getElementById('downtrend-converge').innerHTML = `Downtrend: ${downtrendConvergeText}`;
+                });
+        }
+
+        setInterval(updateChart, 10000);
+        updateChart();  // Initial call to load the chart
     </script>
 </body>
 </html>
