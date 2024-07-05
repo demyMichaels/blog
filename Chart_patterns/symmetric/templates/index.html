@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symmetrical Triangles Chart</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Symmetrical Triangles Chart</h1>
+    <div id="uptrend-chart"></div>
+    <div id="downtrend-chart"></div>
+    <script>
+        fetch('/get_chart_data')
+            .then(response => response.json())
+            .then(data => {
+                var uptrend = {
+                    x: data.uptrend.x,
+                    y: data.uptrend.y,
+                    mode: 'lines',
+                    name: 'Symmetrical Triangle in an Uptrend',
+                    line: { shape: 'linear' }
+                };
+
+                var downtrend = {
+                    x: data.downtrend.x,
+                    y: data.downtrend.y,
+                    mode: 'lines',
+                    name: 'Symmetrical Triangle in a Downtrend',
+                    line: { shape: 'linear' }
+                };
+
+                Plotly.newPlot('uptrend-chart', [uptrend], { title: 'Symmetrical Triangle in an Uptrend (Bullish)' });
+                Plotly.newPlot('downtrend-chart', [downtrend], { title: 'Symmetrical Triangle in a Downtrend (Bearish)' });
+            });
+    </script>
+</body>
+</html>
