@@ -5,13 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symmetrical Triangles Chart</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .info-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .info-box div {
+            margin: 0 5px;
+        }
+    </style>
 </head>
 <body>
     <h1>Symmetrical Triangles Chart</h1>
-    <div id="uptrend-chart"></div>
-    <div id="uptrend-converge"></div>
-    <div id="downtrend-chart"></div>
-    <div id="downtrend-converge"></div>
+    <div id="chart"></div>
+    <div id="converge"></div>
+    <div class="info-box">
+        <div id="pattern-name">Pattern: Symmetrical Triangle</div>
+        <div id="pattern-type">Type: Technical Pattern</div>
+        <div id="pattern-bullish">Bullish: Yes</div>
+        <div id="pattern-reliability">Reliability: High in an uptrend</div>
+        <div id="pattern-oversold">Market: Overbought</div>
+        <div id="sentiment-analysis">Sentiment: Hold</div>
+    </div>
     <script>
         function checkConvergence(top_line, bottom_line) {
             return top_line[top_line.length - 1] === bottom_line[bottom_line.length - 1];
@@ -21,66 +39,70 @@
             fetch('/get_chart_data')
                 .then(response => response.json())
                 .then(data => {
-                    var uptrend = {
-                        x: data.uptrend.dates,
-                        y: data.uptrend.prices,
+                    var prices = {
+                        x: data.dates,
+                        y: data.prices,
                         mode: 'lines',
-                        name: 'Symmetrical Triangle in an Uptrend',
-                        line: { shape: 'linear' }
+                        name: 'Stock Prices',
+                        line: { shape: 'linear' },
+                        xaxis: 'x1',
+                        yaxis: 'y1'
                     };
 
-                    var uptrend_top_line = {
-                        x: data.uptrend_converge.dates,
-                        y: data.uptrend_converge.top_line,
-                        mode: 'lines',
-                        name: 'Top Line',
-                        line: { dash: 'dash' }
+                    var volume = {
+                        x: data.dates,
+                        y: data.volumes,
+                        type: 'bar',
+                        name: 'Volume',
+                        xaxis: 'x2',
+                        yaxis: 'y2'
                     };
 
-                    var uptrend_bottom_line = {
-                        x: data.uptrend_converge.dates,
-                        y: data.uptrend_converge.bottom_line,
-                        mode: 'lines',
-                        name: 'Bottom Line',
-                        line: { dash: 'dash' }
-                    };
-
-                    var downtrend = {
-                        x: data.downtrend.dates,
-                        y: data.downtrend.prices,
-                        mode: 'lines',
-                        name: 'Symmetrical Triangle in a Downtrend',
-                        line: { shape: 'linear' }
-                    };
-
-                    var downtrend_top_line = {
-                        x: data.downtrend_converge.dates,
-                        y: data.downtrend_converge.top_line,
+                    var top_line = {
+                        x: data.dates,
+                        y: data.top_line,
                         mode: 'lines',
                         name: 'Top Line',
-                        line: { dash: 'dash' }
+                        line: { dash: 'dash' },
+                        xaxis: 'x1',
+                        yaxis: 'y1'
                     };
 
-                    var downtrend_bottom_line = {
-                        x: data.downtrend_converge.dates,
-                        y: data.downtrend_converge.bottom_line,
+                    var bottom_line = {
+                        x: data.dates,
+                        y: data.bottom_line,
                         mode: 'lines',
                         name: 'Bottom Line',
-                        line: { dash: 'dash' }
+                        line: { dash: 'dash' },
+                        xaxis: 'x1',
+                        yaxis: 'y1'
                     };
 
-                    Plotly.newPlot('uptrend-chart', [uptrend, uptrend_top_line, uptrend_bottom_line], { title: 'Symmetrical Triangle in an Uptrend (Bullish)' });
-                    Plotly.newPlot('downtrend-chart', [downtrend, downtrend_top_line, downtrend_bottom_line], { title: 'Symmetrical Triangle in a Downtrend (Bearish)' });
+                    var layout = {
+                        title: 'Symmetrical Triangles Chart',
+                        grid: { rows: 2, columns: 1, pattern: 'independent' },
+                        xaxis1: { title: 'Date', tickformat: '%Y-%m-%d' },
+                        yaxis1: { title: 'Price' },
+                        xaxis2: { title: 'Date', anchor: 'y2', tickformat: '%Y-%m-%d' },
+                        yaxis2: { title: 'Volume', anchor: 'x2' }
+                    };
 
-                    var uptrendConvergeText = checkConvergence(data.uptrend_converge.top_line, data.uptrend_converge.bottom_line) ? 'Converging' : 'Not Converging';
-                    var downtrendConvergeText = checkConvergence(data.downtrend_converge.top_line, data.downtrend_converge.bottom_line) ? 'Converging' : 'Not Converging';
+                    Plotly.newPlot('chart', [prices, top_line, bottom_line, volume], layout);
 
-                    document.getElementById('uptrend-converge').innerHTML = `Uptrend: ${uptrendConvergeText}`;
-                    document.getElementById('downtrend-converge').innerHTML = `Downtrend: ${downtrendConvergeText}`;
+                    var convergeText = checkConvergence(data.top_line, data.bottom_line) ? 'Converging' : 'Not Converging';
+                    document.getElementById('converge').innerHTML = `Convergence: ${convergeText}`;
+
+                    // Update the information boxes
+                    document.getElementById('pattern-name').innerHTML = 'Pattern: Symmetrical Triangle';
+                    document.getElementById('pattern-type').innerHTML = 'Type: Technical Pattern';
+                    document.getElementById('pattern-bullish').innerHTML = 'Bullish: Yes';
+                    document.getElementById('pattern-reliability').innerHTML = 'Reliability: High in an uptrend';
+                    document.getElementById('pattern-oversold').innerHTML = 'Market: ' + (data.market_status || 'Overbought');
+                    document.getElementById('sentiment-analysis').innerHTML = 'Sentiment: ' + (data.sentiment_analysis || 'Hold');
                 });
         }
 
-        setInterval(updateChart, 10000);
+        setInterval(updateChart, 60000);  // Update interval set to 1 minute
         updateChart();  // Initial call to load the chart
     </script>
 </body>

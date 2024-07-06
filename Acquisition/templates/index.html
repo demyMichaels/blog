@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Acquisition Simulation</title>
+</head>
+<body>
+    <h1>Acquisition Simulation Game</h1>
+    <form action="/simulate" method="post">
+        <label for="acquisition_type">Choose acquisition type:</label>
+        <select name="acquisition_type" id="acquisition_type">
+            <option value="half_debt_half_equity">Half Debt / Half Equity</option>
+            <option value="full_debt">Full Debt</option>
+            <option value="full_equity">Full Equity</option>
+        </select>
+        <br><br>
+        <label for="initial_ebitda">Initial EBITDA ($mm):</label>
+        <input type="number" name="initial_ebitda" id="initial_ebitda" step="0.1" required>
+        <br><br>
+        <label for="exit_multiple">Exit Multiple:</label>
+        <input type="number" name="exit_multiple" id="exit_multiple" step="0.1" required>
+        <br><br>
+        <label for="exit_years">Exit Years:</label>
+        <input type="number" name="exit_years" id="exit_years" required>
+        <br><br>
+        <label for="final_ebitda">Final EBITDA ($mm):</label>
+        <input type="number" name="final_ebitda" id="final_ebitda" step="0.1" required>
+        <br><br>
+        <button type="submit">Simulate</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Analysis Visualization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Financial Analysis Visualization</h1>
+    <h2>Heatmap of Product of Deviations</h2>
+    <div>
+        <img src="data:image/png;base64,{{ heatmap_img }}" alt="Heatmap">
+    </div>
+    <div class="interpretation">
+        <h2>How to Read This Heatmap</h2>
+        <p>A heatmap is a visual representation that shows the relationships between different financial deviations (Stock-Call, Stock-Put, Call-Put) across different scenarios.</p>
+        <ul>
+            <li><strong>White and Yellow Colors:</strong> Indicate stronger relationships between investments.</li>
+            <li><strong>Red Colors:</strong> Indicate moderate relationships.</li>
+            <li><strong>Black Colors:</strong> Indicate weaker or negative relationships.</li>
+        </ul>
+        <p>Understanding these relationships can help you make informed investment decisions. For example, if the <em>Stock-Call</em> cell is white, it suggests that if stock prices increase, call options are likely to increase as well.</p>
+        <p>Use this heatmap to diversify your portfolio by looking for investments with weaker relationships (black colors) to reduce risk. Additionally, predict market moves and manage risk by understanding which investments might expose you to more risk due to their strong relationships (white or yellow colors).</p>
+        <p>The blue rectangle highlights the most profitable and likely recommendation based on the weighted product of deviations.</p>
+        <p>The green rectangle highlights the box with the least exposure to correlation risk.</p>
+    </div>
+</body>
+</html>

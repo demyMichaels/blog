@@ -11,11 +11,14 @@ def generate_date_range(start_date, num_days):
 def generate_symmetric_triangle_prices(start_price, num_points):
     prices = [start_price]
     direction = 1
-    for _ in range(1, num_points):
+    for i in range(1, num_points):
         price_change = random.uniform(0.5, 1.5) * direction
         prices.append(prices[-1] + price_change)
         direction *= -1 if random.random() > 0.5 else 1
     return prices
+
+def generate_volume_data(num_points):
+    return [random.randint(100, 1000) for _ in range(num_points)]
 
 @app.route('/')
 def index():
@@ -34,28 +37,19 @@ def generate_symmetrical_triangle_data():
 
     # Generate symmetric triangle prices
     start_price = 100
-    uptrend_prices = generate_symmetric_triangle_prices(start_price, num_points)
-    downtrend_prices = generate_symmetric_triangle_prices(start_price, num_points)
+    prices = generate_symmetric_triangle_prices(start_price, num_points)
+    volumes = generate_volume_data(num_points)
 
-    # Converging lines for uptrend
-    uptrend_converge = {
-        "dates": [dates[0], dates[-1]],
-        "top_line": [uptrend_prices[0], uptrend_prices[-1]],
-        "bottom_line": [uptrend_prices[0], uptrend_prices[-1]]
-    }
-
-    # Converging lines for downtrend
-    downtrend_converge = {
-        "dates": [dates[0], dates[-1]],
-        "top_line": [downtrend_prices[0], downtrend_prices[-1]],
-        "bottom_line": [downtrend_prices[0], downtrend_prices[-1]]
-    }
+    # Generate converging trendlines
+    top_line = [max(prices[0], prices[-1]) - i * ((max(prices[0], prices[-1]) - min(prices[0], prices[-1])) / (num_points - 1)) for i in range(num_points)]
+    bottom_line = [min(prices[0], prices[-1]) + i * ((max(prices[0], prices[-1]) - min(prices[0], prices[-1])) / (num_points - 1)) for i in range(num_points)]
 
     return {
-        "uptrend": {"dates": dates, "prices": uptrend_prices},
-        "downtrend": {"dates": dates, "prices": downtrend_prices},
-        "uptrend_converge": uptrend_converge,
-        "downtrend_converge": downtrend_converge
+        "dates": dates,
+        "prices": prices,
+        "volumes": volumes,
+        "top_line": top_line,
+        "bottom_line": bottom_line
     }
 
 if __name__ == '__main__':

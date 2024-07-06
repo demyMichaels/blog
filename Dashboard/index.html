@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="input-container">
+            <label for="risk-level-input">Risk Level:</label>
+            <input type="number" id="risk-level-input" value="50" min="0" max="100" step="1">
+        </div>
+        <div class="input-container">
+            <label for="return-potential-input">Return Potential:</label>
+            <input type="number" id="return-potential-input" value="50" min="0" max="100" step="1">
+        </div>
+        <div class="input-container">
+            <label for="time-horizon-input">Time Horizon:</label>
+            <input type="number" id="time-horizon-input" value="50" min="0" max="100" step="1">
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div id="speedometer" class="gauge">
+            <div class="gauge-label">Risk Level</div>
+            <div class="gauge-value">50</div>
+        </div>
+        <div id="fuel-gauge" class="gauge">
+            <div class="gauge-label">Return Potential</div>
+            <div class="gauge-value">50</div>
+        </div>
+        <div id="odometer" class="gauge">
+            <div class="gauge-label">Time Horizon</div>
+            <div class="gauge-value">50</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
